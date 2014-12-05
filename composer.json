@@ -1,6 +1,7 @@
 {
     "name": "ksungcaya/phpass",
     "description": "PHPass integration to Laravel",
+    "license": "MIT",
     "authors": [
         {
             "name": "Kenneth Sungcaya",
