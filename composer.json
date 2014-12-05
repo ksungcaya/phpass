@@ -1,0 +1,23 @@
+{
+    "name": "ksungcaya/phpass",
+    "description": "PHPass integration to Laravel",
+    "authors": [
+        {
+            "name": "Kenneth Sungcaya",
+            "email": "ksungcaya@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Ksungcaya\\Phpass\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
