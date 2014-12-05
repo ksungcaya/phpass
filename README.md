@@ -1,7 +1,7 @@
 #PHPass Laravel
 
 
-A PHPass integration to Laravel. This package overrides the default Eloquent Auth Driver and Hashing of Laravel and use the PHPass
+A PHPass integration to Laravel. This package overrides the default Eloquent Auth Driver and Hashing of Laravel and uses the PHPass
 password hashing and checking methods.
 
 
@@ -42,4 +42,4 @@ Hash::check('secret', $hashedPassword);
 
 ## That's it!
 
-Please refer to Laravel documentation on [Security](http://laravel.com/docs/4.2/security) to know more about Authentication and Hash Classes.
+Please refer to Laravel documentation on [Security](http://laravel.com/docs/4.2/security) to know more about Authentication and Hash methods.
