@@ -15,6 +15,11 @@ Install package through Composer.
 }
 ```
 
+Then run composer update
+```
+$ composer update
+```
+
 Update `app/config/app.php` and include a reference to this package's service provider in the providers array.
 
 ```php
