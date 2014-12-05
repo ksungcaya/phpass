@@ -11,7 +11,7 @@ Install package through Composer.
 
 ```js
 "require": {
-    "ksungcaya/phpass": "~1.0"
+    "ksungcaya/phpass": "1.0.0"
 }
 ```
 
