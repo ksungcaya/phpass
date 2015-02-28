@@ -51,7 +51,7 @@ class PhpassServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return [];
 	}
 
 }

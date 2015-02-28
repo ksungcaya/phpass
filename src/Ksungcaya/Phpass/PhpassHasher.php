@@ -13,9 +13,8 @@ class PhpassHasher implements HasherInterface {
 
     /**
      *
-     * @param  \Ksungcaya\Phpass\PasswordHash  $hasher
-     * @param  string  $model
-     * @return void
+     * @internal param PasswordHash $hasher
+     * @internal param string $model
      */
     public function __construct()
     {
