@@ -1,4 +1,4 @@
-<?php namespace Ksungcaya\Phpass;
+<?php namespace Ksungcaya\Phpass\Hashing;
 
 #
 # Portable PHP password hashing framework.

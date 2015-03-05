@@ -1,16 +1,12 @@
 <?php namespace Ksungcaya\Phpass;
 
+use App\User;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Auth\Guard;
+use Ksungcaya\Phpass\Auth\PhpassUserProvider;
+use Ksungcaya\Phpass\Hashing\PasswordHash;
+use Ksungcaya\Phpass\Hashing\PhpassHasher;
 
 class PhpassServiceProvider extends ServiceProvider {
-
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
 
 	/**
 	 * Bootstrap the application events.
@@ -19,15 +15,10 @@ class PhpassServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('ksungcaya/phpass');
-
-        \Auth::extend('phpass', function() {
-
-            $hasher = new PasswordHash(8, false);
-            return new Guard(
-                new PhpassUserProvider($hasher, 'User'),
-                \App::make('session.store')
-            );
+        $hasher = new PasswordHash(8, false);
+        $this->app['auth']->extend('phpass', function() use ($hasher)
+        {
+           return new PhpassUserProvider($hasher, new User);
         });
 	}
 
@@ -53,5 +44,4 @@ class PhpassServiceProvider extends ServiceProvider {
 	{
 		return [];
 	}
-
 }

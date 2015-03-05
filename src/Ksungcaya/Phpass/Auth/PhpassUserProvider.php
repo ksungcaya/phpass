@@ -1,15 +1,15 @@
-<?php namespace Ksungcaya\Phpass;
+<?php namespace Ksungcaya\Phpass\Auth;
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\UserProviderInterface;
-use Ksungcaya\Phpass\PasswordHash;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
-class PhpassUserProvider implements UserProviderInterface {
+class PhpassUserProvider implements UserProvider {
 
     /**
      * The hasher implementation.
      *
-     * @var \Ksungcaya\Phpass\PasswordHash
+     * @var \Illuminate\Contracts\Hashing\Hasher
      */
     protected $hasher;
 
@@ -23,21 +23,21 @@ class PhpassUserProvider implements UserProviderInterface {
     /**
      * Create a new database user provider.
      *
-     * @param  \Illuminate\Hashing\HasherInterface  $hasher
-     * @param  string  $model
-     * @return void
+     * @param \Ksungcaya\Phpass\Hashing\PasswordHash $hasher
+     * @param  string $model
      */
-    public function __construct(PasswordHash $hasher, $model)
+    public function __construct($hasher, $model)
     {
-        $this->model = $model;
+        $this->model  = $model;
         $this->hasher = $hasher;
     }
 
     /**
      * Retrieve a user by their unique identifier.
      *
-     * @param  mixed  $identifier
-     * @return \Illuminate\Auth\UserInterface|null
+     * @param  mixed $identifier
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById($identifier)
     {
@@ -47,28 +47,30 @@ class PhpassUserProvider implements UserProviderInterface {
     /**
      * Retrieve a user by their unique identifier and "remember me" token.
      *
-     * @param  mixed  $identifier
-     * @param  string  $token
-     * @return \Illuminate\Auth\UserInterface|null
+     * @param  mixed $identifier
+     * @param  string $token
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken($identifier, $token)
     {
         $model = $this->createModel();
 
         return $model->newQuery()
-            ->where($model->getKeyName(), $identifier)
-            ->where($model->getRememberTokenName(), $token)
-            ->first();
+                     ->where($model->getKeyName(), $identifier)
+                     ->where($model->getRememberTokenName(), $token)
+                     ->first();
     }
 
     /**
      * Update the "remember me" token for the given user in storage.
      *
-     * @param  \Illuminate\Auth\UserInterface  $user
-     * @param  string  $token
+     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param  string $token
+     *
      * @return void
      */
-    public function updateRememberToken(UserInterface $user, $token)
+    public function updateRememberToken(UserContract $user, $token)
     {
         $user->setRememberToken($token);
 
@@ -78,8 +80,9 @@ class PhpassUserProvider implements UserProviderInterface {
     /**
      * Retrieve a user by the given credentials.
      *
-     * @param  array  $credentials
-     * @return \Illuminate\Auth\UserInterface|null
+     * @param  array $credentials
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
     {
@@ -99,15 +102,16 @@ class PhpassUserProvider implements UserProviderInterface {
     /**
      * Validate a user against the given credentials.
      *
-     * @param  \Illuminate\Auth\UserInterface  $user
-     * @param  array  $credentials
+     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param  array $credentials
+     *
      * @return bool
      */
-    public function validateCredentials(UserInterface $user, array $credentials)
+    public function validateCredentials(UserContract $user, array $credentials)
     {
         $plain = $credentials['password'];
 
-        return $this->hasher->CheckPassword($plain, $user->getAuthPassword());
+        return $this->hasher->check($plain, $user->getAuthPassword());
     }
 
     /**
@@ -117,8 +121,8 @@ class PhpassUserProvider implements UserProviderInterface {
      */
     public function createModel()
     {
-        $class = '\\'.ltrim($this->model, '\\');
+        $class = '\\' . ltrim($this->model, '\\');
 
         return new $class;
     }
-} 
+}

@@ -1,8 +1,8 @@
-<?php namespace Ksungcaya\Phpass;
+<?php namespace Ksungcaya\Phpass\Hashing;
 
-use Illuminate\Hashing\HasherInterface;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 
-class PhpassHasher implements HasherInterface {
+class PhpassHasher implements HasherContract {
 
     /**
      * The hasher implementation.
@@ -11,11 +11,6 @@ class PhpassHasher implements HasherInterface {
      */
     protected $hasher;
 
-    /**
-     *
-     * @internal param PasswordHash $hasher
-     * @internal param string $model
-     */
     public function __construct()
     {
         $this->hasher = new PasswordHash(8, false);
