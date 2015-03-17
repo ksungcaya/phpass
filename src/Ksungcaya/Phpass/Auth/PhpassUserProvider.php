@@ -111,7 +111,7 @@ class PhpassUserProvider implements UserProvider {
     {
         $plain = $credentials['password'];
 
-        return $this->hasher->check($plain, $user->getAuthPassword());
+        return $this->hasher->CheckPassword($plain, $user->getAuthPassword());
     }
 
     /**
