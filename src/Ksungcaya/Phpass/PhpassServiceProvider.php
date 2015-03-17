@@ -17,8 +17,7 @@ class PhpassServiceProvider extends ServiceProvider {
 	        $hasher = new PasswordHash(8, false);
 	        $this->app['auth']->extend('phpass', function() use ($hasher)
 	        {
-	       	   $userClass = '\\'.ltrim(\Config::get('auth.model'), '\\');
-	           return new PhpassUserProvider($hasher, new $userClass);
+	           return new PhpassUserProvider($hasher, \Config::get('auth.model'));
 	        });
 	}
 
