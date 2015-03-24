@@ -1,6 +1,5 @@
 <?php namespace Ksungcaya\Phpass;
 
-use App\User;
 use Illuminate\Support\ServiceProvider;
 use Ksungcaya\Phpass\Auth\PhpassUserProvider;
 use Ksungcaya\Phpass\Hashing\PasswordHash;
@@ -15,11 +14,11 @@ class PhpassServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-        $hasher = new PasswordHash(8, false);
-        $this->app['auth']->extend('phpass', function() use ($hasher)
-        {
-           return new PhpassUserProvider($hasher, new User);
-        });
+	        $hasher = new PasswordHash(8, false);
+	        $this->app['auth']->extend('phpass', function() use ($hasher)
+	        {
+	           return new PhpassUserProvider($hasher, \Config::get('auth.model'));
+	        });
 	}
 
 	/**
